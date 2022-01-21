@@ -55,7 +55,7 @@ func (n Node) ASCIIArt(w io.Writer) {
 `
 	_, err := fmt.Fprintf(w, output, b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7], b[8])
 	if err != nil {
-		log.Fatal("printing ASCII art: %v", err)
+		log.Fatalf("printing ASCII art: %v", err)
 	}
 }
 
