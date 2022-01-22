@@ -18,22 +18,23 @@ func main() {
 	stdr.SetVerbosity(3)
 	logger := stdr.New(nil)
 
+	graphics := [2]string{"X", "0"}
+
 	g := tictactoe.NewGame()
 	p := tictactoe.NewPlayerRandomScore()
 	d := decision.NewMinimax(logger, g, maxPlies)
 	actualNode := g.Initial()
 	for {
-		graphics := [2]string{"O", "X"}
 		playerIndex := actualNode.(*tictactoe.Node).PlayerTurn
-		fmt.Printf("Player %v (%s) will play on:\n", playerIndex, graphics[playerIndex])
-		actualNode.(*tictactoe.Node).ASCIIArt(os.Stdout)
 		if playerIndex == 0 {
+			actualNode.(*tictactoe.Node).ASCIIArt(os.Stdout)
+			fmt.Printf("Player %v (%s) play on: ", playerIndex+1, graphics[playerIndex])
 			var move int
 			_, err := fmt.Scan(&move)
 			if err != nil {
 				log.Fatalf("getting human player play: %v", err)
 			}
-			newNode := actualNode.(*tictactoe.Node).LeafWith(move, 1)
+			newNode := actualNode.(*tictactoe.Node).LeafWith(move-1, 1)
 			newNode.PlayerTurn = 1
 			actualNode = newNode
 		} else {
@@ -41,9 +42,17 @@ func main() {
 			logger.Info("chosen", "base64", actualNode.Base64(), "score", actualNode.Score())
 		}
 		if g.IsFinal(actualNode) {
-			logger.Info("end", "base64", actualNode.Base64())
-			actualNode.(*tictactoe.Node).ASCIIArt(os.Stdout)
 			break
 		}
 	}
+	actualNode.(*tictactoe.Node).ASCIIArt(os.Stdout)
+	switch g.WinnerIndex(actualNode) {
+	case 0:
+		fmt.Println("Draw...")
+	case 1:
+		fmt.Println("Winner: Player 1")
+	case 2:
+		fmt.Println("Winner: Player 2")
+	}
+
 }
