@@ -8,10 +8,6 @@ func NewGame() cp.Game {
 	return game{}
 }
 
-func (g game) Name() string {
-	return "Tic-Tac-Toe"
-}
-
 func (g game) Initial() cp.Node {
 	return NewNode()
 }

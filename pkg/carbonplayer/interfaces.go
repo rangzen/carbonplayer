@@ -2,8 +2,6 @@ package carbonplayer
 
 // Game represents the rules of a game.
 type Game interface {
-	// Name gives the name of the game.
-	Name() string
 	// Initial returns a node in an initial state to start a game.
 	Initial() Node
 	// PossibleChildren gives all the possible Node from this Node.
