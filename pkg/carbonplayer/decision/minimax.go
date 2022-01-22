@@ -6,14 +6,14 @@ import (
 	"github.com/rangzen/carbonplayer/pkg/carbonplayer/node"
 )
 
-type Classic struct {
+type minimax struct {
 	logger   logr.Logger
 	game     cp.Game
 	maxPlies int
 }
 
-func NewMinimax(l logr.Logger, g cp.Game, maxPlies int) *Classic {
-	return &Classic{
+func NewMinimax(l logr.Logger, g cp.Game, maxPlies int) *minimax {
+	return &minimax{
 		logger:   l.WithName("minimax"),
 		game:     g,
 		maxPlies: maxPlies,
@@ -25,7 +25,7 @@ func (m minimax) NextMove(g cp.Game, p cp.Player, n cp.Node) cp.Node {
 }
 
 // From https://en.wikipedia.org/wiki/Minimax#Pseudocode with Node
-func (m Classic) minimax(n cp.Node, depth int, maximizingPlayer bool, g cp.Game, p cp.Player) cp.Node {
+func (m minimax) minimax(n cp.Node, depth int, maximizingPlayer bool, g cp.Game, p cp.Player) cp.Node {
 	m.logger.V(4).Info("entering", "depth", depth, "base64", n.Base64(), "maximizingPlayer", maximizingPlayer)
 	if depth == 0 || g.IsFinal(n) {
 		score := p.Score(g, n)
