@@ -20,11 +20,7 @@ func NewMinimax(l logr.Logger, g cp.Game, maxPlies int) *Classic {
 	}
 }
 
-func (m Classic) MaxPlies() int {
-	return m.maxPlies
-}
-
-func (m Classic) NextMove(g cp.Game, p cp.Player, n cp.Node) cp.Node {
+func (m minimax) NextMove(g cp.Game, p cp.Player, n cp.Node) cp.Node {
 	return m.minimax(n, m.maxPlies, true, g, p)
 }
 

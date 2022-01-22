@@ -15,7 +15,7 @@ type Game interface {
 }
 
 type Decision interface {
-	MaxPlies() int
+	// NextMove calculates the next move from a Node giving a Game and a Player.
 	NextMove(g Game, p Player, n Node) Node
 }
 
