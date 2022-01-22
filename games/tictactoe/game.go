@@ -12,12 +12,6 @@ func (g game) Initial() cp.Node {
 	return NewNode()
 }
 
-func (g game) PlayerIndex(cpn cp.Node) int {
-	n := cpn.(*Node)
-	return (int(n.PlayerTurn) + 1) % 2
-
-}
-
 func (g game) IsFinal(cpn cp.Node) bool {
 	n := cpn.(*Node)
 	// Horizontal
