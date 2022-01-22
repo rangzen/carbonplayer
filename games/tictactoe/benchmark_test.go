@@ -5,15 +5,21 @@ import (
 
 	"github.com/go-logr/stdr"
 	"github.com/rangzen/carbonplayer/games/tictactoe"
+	cp "github.com/rangzen/carbonplayer/pkg/carbonplayer"
 	"github.com/rangzen/carbonplayer/pkg/carbonplayer/decision"
 )
 
-func benchmarkTicTacToeMinimaxAutoplay(maxPlies int, b *testing.B) {
+var (
+	g      = tictactoe.NewGame()
+	p      = tictactoe.NewPlayerRandomScore()
+	logger = stdr.New(nil)
+)
+
+func init() {
 	stdr.SetVerbosity(0)
-	logger := stdr.New(nil)
-	g := tictactoe.NewGame()
-	p := tictactoe.NewPlayerRandomScore()
-	d := decision.NewMinimax(logger, g, maxPlies)
+}
+
+func benchmarkTicTacToeAutoplay(d cp.Decision, b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		node := g.Initial()
 		for {
@@ -25,6 +31,21 @@ func benchmarkTicTacToeMinimaxAutoplay(maxPlies int, b *testing.B) {
 	}
 }
 
-func BenchmarkTicTacToeMinimaxMaxPlies2(b *testing.B) { benchmarkTicTacToeMinimaxAutoplay(2, b) }
-func BenchmarkTicTacToeMinimaxMaxPlies4(b *testing.B) { benchmarkTicTacToeMinimaxAutoplay(4, b) }
-func BenchmarkTicTacToeMinimaxMaxPlies6(b *testing.B) { benchmarkTicTacToeMinimaxAutoplay(6, b) }
+func BenchmarkTicTacToeMinimaxMaxPlies2(b *testing.B) {
+	benchmarkTicTacToeAutoplay(decision.NewMinimax(logger, g, 2), b)
+}
+func BenchmarkTicTacToeMinimaxMaxPlies4(b *testing.B) {
+	benchmarkTicTacToeAutoplay(decision.NewMinimax(logger, g, 4), b)
+}
+func BenchmarkTicTacToeMinimaxMaxPlies6(b *testing.B) {
+	benchmarkTicTacToeAutoplay(decision.NewMinimax(logger, g, 6), b)
+}
+func BenchmarkTicTacToeNegamaxMaxPlies2(b *testing.B) {
+	benchmarkTicTacToeAutoplay(decision.NewNegamax(logger, g, 2), b)
+}
+func BenchmarkTicTacToeNegamaxMaxPlies4(b *testing.B) {
+	benchmarkTicTacToeAutoplay(decision.NewNegamax(logger, g, 4), b)
+}
+func BenchmarkTicTacToeNegamaxMaxPlies6(b *testing.B) {
+	benchmarkTicTacToeAutoplay(decision.NewNegamax(logger, g, 6), b)
+}
