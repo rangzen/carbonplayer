@@ -36,9 +36,9 @@ func (n *Node) Base64() string {
 	for _, u := range n.Board {
 		switch u {
 		case 1:
-			sb.WriteByte('O')
-		case 2:
 			sb.WriteByte('X')
+		case 2:
+			sb.WriteByte('O')
 		default:
 			sb.WriteByte('.')
 		}

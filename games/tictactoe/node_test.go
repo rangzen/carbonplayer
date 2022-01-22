@@ -16,9 +16,9 @@ func TestNode_Base64(t *testing.T) {
 		want   string
 	}{
 		{"empty", fields{board: [9]uint8{0, 0, 0, 0, 0, 0, 0, 0, 0}}, "0........."},
-		{"one cross North West", fields{board: [9]uint8{2, 0, 0, 0, 0, 0, 0, 0, 0}}, "0X........"},
-		{"one circle South East", fields{board: [9]uint8{0, 0, 0, 0, 0, 0, 0, 0, 1}}, "0........O"},
-		{"ending game", fields{board: [9]uint8{1, 1, 2, 0, 1, 1, 2, 2, 2}}, "0OOX.OOXXX"},
+		{"one cross North West", fields{board: [9]uint8{1, 0, 0, 0, 0, 0, 0, 0, 0}}, "0X........"},
+		{"one circle South East", fields{board: [9]uint8{0, 0, 0, 0, 0, 0, 0, 0, 2}}, "0........O"},
+		{"ending game", fields{board: [9]uint8{1, 1, 2, 0, 1, 1, 2, 2, 2}}, "0XXO.XXOOO"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -42,9 +42,9 @@ func TestNode_AsciiArt(t *testing.T) {
 		wantW  string
 	}{
 		{"empty", fields{board: [9]uint8{0, 0, 0, 0, 0, 0, 0, 0, 0}}, "   \n   \n   \n"},
-		{"one cross North Ouest", fields{board: [9]uint8{2, 0, 0, 0, 0, 0, 0, 0, 0}}, "X  \n   \n   \n"},
-		{"one circle South East", fields{board: [9]uint8{0, 0, 0, 0, 0, 0, 0, 0, 1}}, "   \n   \n  O\n"},
-		{"ending game", fields{board: [9]uint8{1, 1, 2, 0, 1, 1, 2, 2, 2}}, "OOX\n OO\nXXX\n"},
+		{"one circle North Ouest", fields{board: [9]uint8{2, 0, 0, 0, 0, 0, 0, 0, 0}}, "O  \n   \n   \n"},
+		{"one cross South East", fields{board: [9]uint8{0, 0, 0, 0, 0, 0, 0, 0, 1}}, "   \n   \n  X\n"},
+		{"ending game", fields{board: [9]uint8{1, 1, 2, 0, 1, 1, 2, 2, 2}}, "XXO\n XX\nOOO\n"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
