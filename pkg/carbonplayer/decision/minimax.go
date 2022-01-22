@@ -29,9 +29,6 @@ func (m minimax) minimax(n cp.Node, depth int, maximizingPlayer bool, g cp.Game,
 	m.logger.V(4).Info("entering", "depth", depth, "base64", n.Base64(), "maximizingPlayer", maximizingPlayer)
 	if depth == 0 || g.IsFinal(n) {
 		score := p.Score(g, n)
-		if maximizingPlayer {
-			score *= -1
-		}
 		n.SetScore(score)
 		m.logger.V(6).Info("score", "depth", depth, "base64", n.Base64(), "maximizingPlayer", maximizingPlayer, "score", score)
 		return n
