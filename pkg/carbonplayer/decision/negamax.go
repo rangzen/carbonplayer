@@ -24,11 +24,11 @@ func (nm negamax) NextMove(g cp.Game, p cp.Player, node cp.Node) cp.Node {
 
 // https://en.wikipedia.org/wiki/Negamax#Negamax_base_algorithm
 func (nm negamax) negamax(n cp.Node, depth int, source bool, g cp.Game, p cp.Player) cp.Node {
-	nm.logger.V(4).Info("entering", "depth", depth, "base64", n.Base64())
+	nm.logger.V(4).Info("entering", "depth", depth, "string", n.String())
 	if depth == 0 || g.IsFinal(n) {
 		score := p.Score(g, n, source)
 		n.SetScore(score)
-		nm.logger.V(6).Info("score", "depth", depth, "base64", n.Base64(), "score", score)
+		nm.logger.V(6).Info("score", "depth", depth, "string", n.String(), "score", score)
 		return n
 	}
 	bestNode := node.MinusInf
@@ -38,7 +38,7 @@ func (nm negamax) negamax(n cp.Node, depth int, source bool, g cp.Game, p cp.Pla
 		if v.Score() > bestNode.Score() {
 			bestNode = child
 			bestNode.SetScore(v.Score())
-			nm.logger.V(6).Info("max", "depth", depth, "base64", child.Base64(), "score", v.Score())
+			nm.logger.V(6).Info("max", "depth", depth, "string", child.String(), "score", v.Score())
 		}
 	}
 	bestNode.SetScore(-1 * bestNode.Score())

@@ -14,7 +14,7 @@ func TestTreeGame_Initial(t *testing.T) {
 	initial := tree.Initial()
 	n := initial.(*decision.TreeNode)
 
-	assert.Equal(t, "A:0.000", initial.Base64())
+	assert.Equal(t, "A:0.000", initial.String())
 	assert.Equal(t, 0, len(n.Leaves))
 }
 

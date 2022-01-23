@@ -27,12 +27,12 @@ func main() {
 		fmt.Printf("Player %v (%s) will play on:\n", playerIndex, graphics[playerIndex])
 		node.(*tictactoe.Node).ASCIIArt(os.Stdout)
 		node = d.NextMove(g, p, node)
-		logger.Info("chosen", "base64", node.Base64(), "score", node.Score())
+		logger.Info("chosen", "string", node.String(), "score", node.Score())
 		if g.IsFinal(node) {
 			break
 		}
 	}
 	winner := g.WinnerIndex(node)
-	logger.Info("finalPosition", "base64", node.Base64(), "winner", winner)
+	logger.Info("finalPosition", "string", node.String(), "winner", winner)
 	node.(*tictactoe.Node).ASCIIArt(os.Stdout)
 }

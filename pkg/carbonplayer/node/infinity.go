@@ -20,7 +20,7 @@ func (p plus) SetScore(_ float64) {
 	panic("should not change this score")
 }
 
-func (p plus) Base64() string {
+func (p plus) String() string {
 	return "+inf"
 }
 
@@ -35,6 +35,6 @@ func (m minus) SetScore(_ float64) {
 	panic("should not change this score")
 }
 
-func (m minus) Base64() string {
+func (m minus) String() string {
 	return "-inf"
 }

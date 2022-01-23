@@ -30,7 +30,7 @@ func (n *Node) SetScore(s float64) {
 	n.score = s
 }
 
-func (n *Node) Base64() string {
+func (n *Node) String() string {
 	sb := strings.Builder{}
 	sb.WriteString(strconv.Itoa(int(n.PlayerTurn)))
 	for _, u := range n.Board {
@@ -47,7 +47,7 @@ func (n *Node) Base64() string {
 }
 
 func (n Node) ASCIIArt(w io.Writer) {
-	b64 := n.Base64()[1:]
+	b64 := n.String()[1:]
 	b := bytes.ReplaceAll([]byte(b64), []byte{'.'}, []byte{' '})
 	var output = `%c%c%c
 %c%c%c

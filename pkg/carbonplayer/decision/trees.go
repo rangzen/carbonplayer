@@ -53,7 +53,7 @@ func (t *TreeNode) SetScore(s float64) {
 	t.score = s
 }
 
-func (t *TreeNode) Base64() string {
+func (t *TreeNode) String() string {
 	return fmt.Sprintf("%s:%.3f", t.Name, t.score)
 }
 

@@ -23,9 +23,9 @@ type Node interface {
 	Score() float64
 	// SetScore updates the score.
 	SetScore(s float64)
-	// Base64 represents a state with a string.
+	// String represents a state with a string.
 	// Can be used for memoization, communication and import/export.
-	Base64() string
+	String() string
 }
 
 // Player represents reactions to a game position.

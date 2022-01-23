@@ -39,7 +39,7 @@ func main() {
 			actualNode = newNode
 		} else {
 			actualNode = d.NextMove(g, p, actualNode)
-			logger.Info("chosen", "base64", actualNode.Base64(), "score", actualNode.Score())
+			logger.Info("chosen", "string", actualNode.String(), "score", actualNode.Score())
 		}
 		if g.IsFinal(actualNode) {
 			break

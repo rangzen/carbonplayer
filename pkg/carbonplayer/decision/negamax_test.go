@@ -37,5 +37,5 @@ func TestNegamax_NextMoveCSCIGameEngineExample(t *testing.T) {
 
 	nm := mm.NextMove(g, p, A)
 
-	assert.Equal(t, "B2:-6.000", nm.Base64())
+	assert.Equal(t, "B2:-6.000", nm.String())
 }

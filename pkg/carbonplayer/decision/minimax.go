@@ -24,11 +24,11 @@ func (m minimax) NextMove(g cp.Game, p cp.Player, n cp.Node) cp.Node {
 
 // From https://en.wikipedia.org/wiki/Minimax#Pseudocode with Node
 func (m minimax) minimax(n cp.Node, depth int, maximizingPlayer bool, g cp.Game, p cp.Player) cp.Node {
-	m.logger.V(4).Info("entering", "depth", depth, "base64", n.Base64(), "maximizingPlayer", maximizingPlayer)
+	m.logger.V(4).Info("entering", "depth", depth, "string", n.String(), "maximizingPlayer", maximizingPlayer)
 	if depth == 0 || g.IsFinal(n) {
 		score := p.Score(g, n, maximizingPlayer)
 		n.SetScore(score)
-		m.logger.V(6).Info("score", "depth", depth, "base64", n.Base64(), "maximizingPlayer", maximizingPlayer, "score", score)
+		m.logger.V(6).Info("score", "depth", depth, "string", n.String(), "maximizingPlayer", maximizingPlayer, "score", score)
 		return n
 	}
 	children := g.PossibleChildren(n)
@@ -39,7 +39,7 @@ func (m minimax) minimax(n cp.Node, depth int, maximizingPlayer bool, g cp.Game,
 			if mm.Score() > bestNode.Score() {
 				bestNode = child
 				bestNode.SetScore(mm.Score())
-				m.logger.V(6).Info("max", "depth", depth, "base64", child.Base64(), "maximizingPlayer", maximizingPlayer, "score", mm.Score())
+				m.logger.V(6).Info("max", "depth", depth, "string", child.String(), "maximizingPlayer", maximizingPlayer, "score", mm.Score())
 			}
 		}
 		return bestNode
@@ -50,7 +50,7 @@ func (m minimax) minimax(n cp.Node, depth int, maximizingPlayer bool, g cp.Game,
 		if mm.Score() < bestNode.Score() {
 			bestNode = child
 			bestNode.SetScore(mm.Score())
-			m.logger.V(6).Info("min", "depth", depth, "base64", child.Base64(), "maximizingPlayer", maximizingPlayer, "score", mm.Score())
+			m.logger.V(6).Info("min", "depth", depth, "string", child.String(), "maximizingPlayer", maximizingPlayer, "score", mm.Score())
 		}
 	}
 	return bestNode

@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNode_Base64(t *testing.T) {
+func TestNode_String(t *testing.T) {
 	type fields struct {
 		board [9]uint8
 	}
@@ -30,8 +30,8 @@ func TestNode_Base64(t *testing.T) {
 			n := tictactoe.Node{
 				Board: tt.fields.board,
 			}
-			if got := n.Base64(); got != tt.want {
-				t.Errorf("Base64() = %v, want %v", got, tt.want)
+			if got := n.String(); got != tt.want {
+				t.Errorf("String() = %v, want %v", got, tt.want)
 			}
 		})
 	}
