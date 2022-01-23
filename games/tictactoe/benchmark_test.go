@@ -32,20 +32,20 @@ func benchmarkTicTacToeAutoplay(d cp.Decision, b *testing.B) {
 }
 
 func BenchmarkTicTacToeMinimaxMaxPlies2(b *testing.B) {
-	benchmarkTicTacToeAutoplay(decision.NewMinimax(logger, g, 2), b)
+	benchmarkTicTacToeAutoplay(decision.NewMinimax(logger, 2), b)
 }
 func BenchmarkTicTacToeMinimaxMaxPlies4(b *testing.B) {
-	benchmarkTicTacToeAutoplay(decision.NewMinimax(logger, g, 4), b)
+	benchmarkTicTacToeAutoplay(decision.NewMinimax(logger, 4), b)
 }
 func BenchmarkTicTacToeMinimaxMaxPlies6(b *testing.B) {
-	benchmarkTicTacToeAutoplay(decision.NewMinimax(logger, g, 6), b)
+	benchmarkTicTacToeAutoplay(decision.NewMinimax(logger, 6), b)
 }
 func BenchmarkTicTacToeNegamaxMaxPlies2(b *testing.B) {
-	benchmarkTicTacToeAutoplay(decision.NewNegamax(logger, g, 2), b)
+	benchmarkTicTacToeAutoplay(decision.NewNegamax(logger, 2), b)
 }
 func BenchmarkTicTacToeNegamaxMaxPlies4(b *testing.B) {
-	benchmarkTicTacToeAutoplay(decision.NewNegamax(logger, g, 4), b)
+	benchmarkTicTacToeAutoplay(decision.NewNegamax(logger, 4), b)
 }
 func BenchmarkTicTacToeNegamaxMaxPlies6(b *testing.B) {
-	benchmarkTicTacToeAutoplay(decision.NewNegamax(logger, g, 6), b)
+	benchmarkTicTacToeAutoplay(decision.NewNegamax(logger, 6), b)
 }

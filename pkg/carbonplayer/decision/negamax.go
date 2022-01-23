@@ -8,14 +8,12 @@ import (
 
 type negamax struct {
 	logger   logr.Logger
-	game     cp.Game
 	maxPlies int
 }
 
-func NewNegamax(logger logr.Logger, game cp.Game, maxPlies int) *negamax {
+func NewNegamax(logger logr.Logger, maxPlies int) *negamax {
 	return &negamax{
 		logger:   logger.WithName("negamax"),
-		game:     game,
 		maxPlies: maxPlies,
 	}
 }

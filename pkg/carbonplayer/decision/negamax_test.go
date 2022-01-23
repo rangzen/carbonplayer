@@ -13,7 +13,7 @@ func TestNegamax_NextMoveCSCIGameEngineExample(t *testing.T) {
 	logger := stdr.New(nil)
 	g := decision.TreeGame{}
 	p := decision.TreePlayer{}
-	mm := decision.NewNegamax(logger, g, 4)
+	mm := decision.NewNegamax(logger, 4)
 	C1 := decision.NewTreeNode("C1")
 	C1.SetScore(2)
 	D1 := decision.NewTreeNode("D1")

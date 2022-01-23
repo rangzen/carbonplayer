@@ -19,7 +19,7 @@ func main() {
 
 	g := tictactoe.NewGame()
 	p := tictactoe.NewPlayerRandomScore()
-	d := decision.NewMinimax(logger, g, maxPlies)
+	d := decision.NewMinimax(logger, maxPlies)
 	node := g.Initial()
 	for {
 		graphics := [2]string{"O", "X"}

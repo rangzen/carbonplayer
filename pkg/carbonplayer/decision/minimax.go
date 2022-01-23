@@ -8,14 +8,12 @@ import (
 
 type minimax struct {
 	logger   logr.Logger
-	game     cp.Game
 	maxPlies int
 }
 
-func NewMinimax(l logr.Logger, g cp.Game, maxPlies int) *minimax {
+func NewMinimax(l logr.Logger, maxPlies int) *minimax {
 	return &minimax{
 		logger:   l.WithName("minimax"),
-		game:     g,
 		maxPlies: maxPlies,
 	}
 }

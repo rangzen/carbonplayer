@@ -14,7 +14,7 @@ func TestWikipediaEnglishExample(t *testing.T) {
 	logger := stdr.New(nil)
 	g := decision.TreeGame{}
 	p := decision.TreePlayer{}
-	mm := decision.NewMinimax(logger, g, 4)
+	mm := decision.NewMinimax(logger, 4)
 	E1 := decision.NewTreeNode("E1")
 	E1.SetScore(10)
 	E2 := decision.NewTreeNode("E2")
@@ -57,7 +57,7 @@ func TestWikipediaFrenchExample(t *testing.T) {
 	logger := stdr.New(nil)
 	g := decision.TreeGame{}
 	p := decision.TreePlayer{}
-	mm := decision.NewMinimax(logger, g, 2)
+	mm := decision.NewMinimax(logger, 2)
 	C1 := decision.NewTreeNode("C1")
 	C1.SetScore(12)
 	C2 := decision.NewTreeNode("C2")
@@ -91,7 +91,7 @@ func TestWikipediaFrenchExamplePartialWithMaxPlies1(t *testing.T) {
 	logger := stdr.New(nil)
 	g := decision.TreeGame{}
 	p := decision.TreePlayer{}
-	mm := decision.NewMinimax(logger, g, 1)
+	mm := decision.NewMinimax(logger, 1)
 	B1 := decision.NewTreeNode("B1")
 	B1.SetScore(3)
 	B2 := decision.NewTreeNode("B2")

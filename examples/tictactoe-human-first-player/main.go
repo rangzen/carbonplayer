@@ -22,7 +22,7 @@ func main() {
 
 	g := tictactoe.NewGame()
 	p := tictactoe.NewPlayerRandomScore()
-	d := decision.NewMinimax(logger, g, maxPlies)
+	d := decision.NewMinimax(logger, maxPlies)
 	actualNode := g.Initial()
 	for {
 		playerIndex := actualNode.(*tictactoe.Node).PlayerTurn
