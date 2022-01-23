@@ -35,25 +35,25 @@ func (m minimax) minimax(n cp.Node, depth int, maximizingPlayer bool, g cp.Game,
 	}
 	children := g.PossibleChildren(n)
 	if maximizingPlayer {
-		value := node.MinusInf
+		bestNode := node.MinusInf
 		for _, child := range children {
 			mm := m.minimax(child, depth-1, false, g, p)
-			if mm.Score() > value.Score() {
-				value = child
-				value.SetScore(mm.Score())
+			if mm.Score() > bestNode.Score() {
+				bestNode = child
+				bestNode.SetScore(mm.Score())
 				m.logger.V(6).Info("max", "depth", depth, "base64", child.Base64(), "maximizingPlayer", maximizingPlayer, "score", mm.Score())
 			}
 		}
-		return value
+		return bestNode
 	}
-	value := node.PlusInf
+	bestNode := node.PlusInf
 	for _, child := range children {
 		mm := m.minimax(child, depth-1, true, g, p)
-		if mm.Score() < value.Score() {
-			value = child
-			value.SetScore(mm.Score())
+		if mm.Score() < bestNode.Score() {
+			bestNode = child
+			bestNode.SetScore(mm.Score())
 			m.logger.V(6).Info("min", "depth", depth, "base64", child.Base64(), "maximizingPlayer", maximizingPlayer, "score", mm.Score())
 		}
 	}
-	return value
+	return bestNode
 }
