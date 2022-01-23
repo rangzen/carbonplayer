@@ -1,9 +1,14 @@
-package tictactoe
+package tictactoe_test
 
 import (
 	"bytes"
 	"reflect"
 	"testing"
+
+	"github.com/go-logr/stdr"
+	"github.com/rangzen/carbonplayer/games/tictactoe"
+	"github.com/rangzen/carbonplayer/pkg/carbonplayer/decision"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNode_Base64(t *testing.T) {
@@ -22,7 +27,7 @@ func TestNode_Base64(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			n := Node{
+			n := tictactoe.Node{
 				Board: tt.fields.board,
 			}
 			if got := n.Base64(); got != tt.want {
@@ -48,7 +53,7 @@ func TestNode_AsciiArt(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			n := Node{
+			n := tictactoe.Node{
 				Board: tt.fields.board,
 			}
 			w := &bytes.Buffer{}
@@ -72,22 +77,22 @@ func TestNode_LeafWith(t *testing.T) {
 		name   string
 		fields fields
 		args   args
-		want   *Node
+		want   *tictactoe.Node
 	}{
 		{"empty to center",
 			fields{board: [9]uint8{0, 0, 0, 0, 0, 0, 0, 0, 0}},
 			args{index: 4, value: 1},
-			&Node{Board: [9]uint8{0, 0, 0, 0, 1, 0, 0, 0, 0}},
+			&tictactoe.Node{Board: [9]uint8{0, 0, 0, 0, 1, 0, 0, 0, 0}},
 		},
 		{"first index",
 			fields{board: [9]uint8{0, 1, 2, 1, 2, 1, 2, 1, 1}},
 			args{index: 0, value: 2},
-			&Node{Board: [9]uint8{2, 1, 2, 1, 2, 1, 2, 1, 1}},
+			&tictactoe.Node{Board: [9]uint8{2, 1, 2, 1, 2, 1, 2, 1, 1}},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			n := Node{
+			n := tictactoe.Node{
 				Board: tt.fields.board,
 			}
 			if got := n.LeafWith(tt.args.index, tt.args.value); !reflect.DeepEqual(got, tt.want) {
