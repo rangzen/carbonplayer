@@ -22,7 +22,7 @@ func main() {
 	d := decision.NewMinimax(logger, maxPlies)
 	node := g.Initial()
 	for {
-		graphics := [2]string{"O", "X"}
+		graphics := [2]string{"X", "0"}
 		playerIndex := node.(*tictactoe.Node).PlayerTurn
 		fmt.Printf("Player %v (%s) will play on:\n", playerIndex, graphics[playerIndex])
 		node.(*tictactoe.Node).ASCIIArt(os.Stdout)
