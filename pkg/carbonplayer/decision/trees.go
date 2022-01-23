@@ -59,6 +59,6 @@ func (t *TreeNode) Base64() string {
 
 type TreePlayer struct{}
 
-func (t TreePlayer) Score(_ cp.Game, s cp.Node) float64 {
+func (t TreePlayer) Score(_ cp.Game, s cp.Node, _ bool) float64 {
 	return s.Score()
 }

@@ -44,7 +44,7 @@ func TestTreePlayer_Score(t *testing.T) {
 	tn := decision.NewTreeNode("")
 	tn.SetScore(score)
 
-	s := decision.TreePlayer{}.Score(decision.TreeGame{}, tn)
+	s := decision.TreePlayer{}.Score(decision.TreeGame{}, tn, true)
 
 	assert.Equal(t, s, score)
 }

@@ -28,7 +28,7 @@ func (m minimax) NextMove(g cp.Game, p cp.Player, n cp.Node) cp.Node {
 func (m minimax) minimax(n cp.Node, depth int, maximizingPlayer bool, g cp.Game, p cp.Player) cp.Node {
 	m.logger.V(4).Info("entering", "depth", depth, "base64", n.Base64(), "maximizingPlayer", maximizingPlayer)
 	if depth == 0 || g.IsFinal(n) {
-		score := p.Score(g, n)
+		score := p.Score(g, n, maximizingPlayer)
 		n.SetScore(score)
 		m.logger.V(6).Info("score", "depth", depth, "base64", n.Base64(), "maximizingPlayer", maximizingPlayer, "score", score)
 		return n

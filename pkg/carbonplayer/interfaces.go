@@ -31,8 +31,8 @@ type Node interface {
 // Player represents reactions to a game position.
 type Player interface {
 	// Score gives a score to a position.
-	// For minimax, score should be positive. E.g.: win=100, draw=0 and position=]0, 1]
-	Score(g Game, s Node) float64
+	// source is true if you are the Player that starts the research.
+	Score(g Game, s Node, source bool) float64
 }
 
 // PlayerGA represents a Genetic Algorithm player.
