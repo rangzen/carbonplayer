@@ -11,7 +11,7 @@ import (
 
 var (
 	g      = tictactoe.NewGame()
-	p      = tictactoe.NewPlayerRandomScore()
+	p      = tictactoe.NewPlayer()
 	logger = stdr.New(nil)
 )
 

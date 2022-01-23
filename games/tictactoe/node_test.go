@@ -106,9 +106,9 @@ func TestNode_LeafWith(t *testing.T) {
 // OX.    OX.
 // .X. -> .X.
 // ...    .O.
-func TestGameMandatoryMoveMinimax(t *testing.T) {
+func TestGameMandatoryMoveMinimaxMaxPlies1(t *testing.T) {
 	var maxPlies = 1
-	stdr.SetVerbosity(0)
+	stdr.SetVerbosity(2)
 	mm := decision.NewMinimax(logger, maxPlies)
 	n := &tictactoe.Node{
 		PlayerTurn: 1,
@@ -119,4 +119,66 @@ func TestGameMandatoryMoveMinimax(t *testing.T) {
 
 	nextNode := nextMove.(*tictactoe.Node)
 	assert.Equal(t, uint8(2), nextNode.Board[7])
+}
+
+// TestGameMandatoryMoveMinimax tests if the flow is correct with a Minimax.
+// OX.    OX.
+// .X. -> .X.
+// ...    .O.
+func TestGameMandatoryMoveMinimaxMaxPlies2(t *testing.T) {
+	var maxPlies = 2
+	stdr.SetVerbosity(2)
+	mm := decision.NewMinimax(logger, maxPlies)
+	n := &tictactoe.Node{
+		PlayerTurn: 1,
+		Board:      [9]uint8{2, 1, 0, 0, 1, 0, 0, 0, 0},
+	}
+
+	nextMove := mm.NextMove(g, p, n)
+
+	nextNode := nextMove.(*tictactoe.Node)
+	assert.Equal(t, uint8(2), nextNode.Board[7])
+}
+
+// TestGameMandatoryMoveMinimax tests if the flow is correct with a Minimax.
+// XO.    XO.
+// X.. -> X..
+// ...    O..
+func TestGameMandatoryMoveMinimaxMaxPlies3(t *testing.T) {
+	var maxPlies = 3
+	stdr.SetVerbosity(2)
+	mm := decision.NewMinimax(logger, maxPlies)
+	n := &tictactoe.Node{
+		PlayerTurn: 1,
+		Board:      [9]uint8{1, 2, 0, 1, 0, 0, 0, 0, 0},
+	}
+
+	nextMove := mm.NextMove(g, p, n)
+
+	nextNode := nextMove.(*tictactoe.Node)
+	assert.Equal(t, uint8(2), nextNode.Board[6])
+}
+
+// TestGameMandatoryMoveMinimax tests if the flow is correct with a Minimax.
+// XO.    XO.
+// X.. -> X..
+// ...    O..
+// But in fact, Board[2] will be selected cause with maxPlies high enough
+// the algorithm find that the position is a lost position. Any branch will lose.
+// The first leaf is selected and nothing win against cause everything
+// lead to a loose. The algorithm keep the first space and first choice: 2.
+// If the way that the possible leaves are generated, it can be different.
+func TestGameMandatoryMoveMinimaxMaxPlies4(t *testing.T) {
+	var maxPlies = 4
+	stdr.SetVerbosity(2)
+	mm := decision.NewMinimax(logger, maxPlies)
+	n := &tictactoe.Node{
+		PlayerTurn: 1,
+		Board:      [9]uint8{1, 2, 0, 1, 0, 0, 0, 0, 0},
+	}
+
+	nextMove := mm.NextMove(g, p, n)
+
+	nextNode := nextMove.(*tictactoe.Node)
+	assert.Equal(t, uint8(2), nextNode.Board[2])
 }

@@ -18,7 +18,7 @@ func main() {
 	logger := stdr.New(nil)
 
 	g := tictactoe.NewGame()
-	p := tictactoe.NewPlayerRandomScore()
+	p := tictactoe.NewPlayer()
 	d := decision.NewMinimax(logger, maxPlies)
 	node := g.Initial()
 	for {
