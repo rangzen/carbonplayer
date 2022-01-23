@@ -21,27 +21,28 @@ func NewNegamax(logger logr.Logger, game cp.Game, maxPlies int) *negamax {
 }
 
 func (nm negamax) NextMove(g cp.Game, p cp.Player, node cp.Node) cp.Node {
-	return nm.negamax(node, nm.maxPlies, 1, g, p)
+	return nm.negamax(node, nm.maxPlies, g, p)
 }
 
 // https://en.wikipedia.org/wiki/Negamax#Negamax_base_algorithm
-func (nm negamax) negamax(n cp.Node, depth int, color int8, g cp.Game, p cp.Player) cp.Node {
-	nm.logger.V(4).Info("entering", "depth", depth, "base64", n.Base64(), "color", color)
+func (nm negamax) negamax(n cp.Node, depth int, g cp.Game, p cp.Player) cp.Node {
+	nm.logger.V(4).Info("entering", "depth", depth, "base64", n.Base64())
 	if depth == 0 || g.IsFinal(n) {
-		score := p.Score(g, n) * float64(color)
+		score := p.Score(g, n)
 		n.SetScore(score)
-		nm.logger.V(6).Info("score", "depth", depth, "base64", n.Base64(), "color", color, "score", score)
+		nm.logger.V(6).Info("score", "depth", depth, "base64", n.Base64(), "score", score)
 		return n
 	}
+	bestNode := node.MinusInf
 	children := g.PossibleChildren(n)
-	value := node.MinusInf
 	for _, child := range children {
-		v := nm.negamax(child, depth-1, color*-1, g, p)
-		if v.Score() > value.Score() {
-			value = child
-			value.SetScore(v.Score())
-			nm.logger.V(6).Info("max", "depth", depth, "base64", child.Base64(), "color", color, "score", v.Score())
+		v := nm.negamax(child, depth-1, g, p)
+		if v.Score() > bestNode.Score() {
+			bestNode = child
+			bestNode.SetScore(v.Score())
+			nm.logger.V(6).Info("max", "depth", depth, "base64", child.Base64(), "score", v.Score())
 		}
 	}
-	return value
+	bestNode.SetScore(-1 * bestNode.Score())
+	return bestNode
 }
