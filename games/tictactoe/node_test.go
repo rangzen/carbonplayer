@@ -101,3 +101,22 @@ func TestNode_LeafWith(t *testing.T) {
 		})
 	}
 }
+
+// TestGameMandatoryMoveMinimax tests if the flow is correct with a Minimax.
+// OX.    OX.
+// .X. -> .X.
+// ...    .O.
+func TestGameMandatoryMoveMinimax(t *testing.T) {
+	var maxPlies = 1
+	stdr.SetVerbosity(0)
+	mm := decision.NewMinimax(logger, maxPlies)
+	n := &tictactoe.Node{
+		PlayerTurn: 1,
+		Board:      [9]uint8{2, 1, 0, 0, 1, 0, 0, 0, 0},
+	}
+
+	nextMove := mm.NextMove(g, p, n)
+
+	nextNode := nextMove.(*tictactoe.Node)
+	assert.Equal(t, uint8(2), nextNode.Board[7])
+}
