@@ -24,7 +24,7 @@ func main() {
 	for {
 		graphics := [2]string{"X", "0"}
 		playerIndex := node.(*tictactoe.Node).PlayerTurn
-		fmt.Printf("Player %v (%s) will play on:\n", playerIndex, graphics[playerIndex])
+		fmt.Printf("Player %v (%s) will play on:\n", playerIndex+1, graphics[playerIndex])
 		node.(*tictactoe.Node).ASCIIArt(os.Stdout)
 		node = d.NextMove(g, p, node)
 		logger.Info("chosen", "string", node.String(), "score", node.Score())
