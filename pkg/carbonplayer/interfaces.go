@@ -8,7 +8,8 @@ type Game interface {
 	PossibleChildren(n Node) []Node
 	// IsFinal returns true if the game is finished.
 	IsFinal(n Node) bool
-	// WinnerIndex returns true if the game have a winner.
+	// WinnerIndex returns the index of the winner.
+	// Some game use 0 for draw.
 	WinnerIndex(n Node) int
 }
 
