@@ -33,6 +33,8 @@ type Node interface {
 type Player interface {
 	// Score gives a score to a position.
 	// source is true if you are the Player that starts the research.
+	// source is equivalent to:
+	// Are you the one who have "interest" in the actual scoring?
 	Score(g Game, s Node, source bool) float64
 }
 
