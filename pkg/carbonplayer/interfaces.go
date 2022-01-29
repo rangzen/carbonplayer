@@ -19,7 +19,8 @@ type Decision interface {
 
 // Node represents a board position.
 type Node interface {
-	// Score returns the evaluation score given by the creator.
+	// Score returns the actual score of this node.
+	// The Score is normally given by a Player.
 	Score() float64
 	// SetScore updates the score.
 	SetScore(s float64)
