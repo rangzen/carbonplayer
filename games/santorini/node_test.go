@@ -11,7 +11,7 @@ import (
 func TestNode_String(t *testing.T) {
 	node := santorini.NewNode()
 	node.TurnOf = santorini.Player1
-	node.Worker = [4][2]int{{1, 3}, {3, 3}, {1, 1}, {3, 1}}
+	node.Worker = [4]santorini.Position{{1, 3}, {3, 3}, {1, 1}, {3, 1}}
 	node.Board = [5][5]int{
 		{0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 1},
@@ -25,7 +25,7 @@ func TestNode_String(t *testing.T) {
 
 func TestNode_ASCIIArt_RunningBoard(t *testing.T) {
 	node := santorini.NewNode()
-	node.Worker = [4][2]int{{0, 3}, {1, 2}, {2, 1}, {3, 0}}
+	node.Worker = [4]santorini.Position{{0, 3}, {1, 2}, {2, 1}, {3, 0}}
 	node.Board = [5][5]int{
 		{0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 1},

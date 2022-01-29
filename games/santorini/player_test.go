@@ -10,10 +10,10 @@ import (
 func TestPlayer_ScoreP1PoVPlayerP1Win(t *testing.T) {
 	n := santorini.NewNode()
 	n.TurnOf = santorini.Player2
-	n.Worker[0] = [2]int{0, 4}
-	n.Worker[1] = [2]int{3, 3}
-	n.Worker[2] = [2]int{1, 1}
-	n.Worker[3] = [2]int{3, 1}
+	n.Worker[0] = santorini.Position{0, 4}
+	n.Worker[1] = santorini.Position{3, 3}
+	n.Worker[2] = santorini.Position{1, 1}
+	n.Worker[3] = santorini.Position{3, 1}
 	n.Board = [5][5]int{
 		{4, 4, 4, 4, 3},
 		{4, 2, 4, 2, 4},
@@ -32,10 +32,10 @@ func TestPlayer_ScoreP1PoVPlayerP1Win(t *testing.T) {
 func TestPlayer_ScoreP2PoVPlayerP2Win(t *testing.T) {
 	n := santorini.NewNode()
 	n.TurnOf = santorini.Player1
-	n.Worker[0] = [2]int{1, 1}
-	n.Worker[1] = [2]int{3, 3}
-	n.Worker[2] = [2]int{0, 4}
-	n.Worker[3] = [2]int{3, 1}
+	n.Worker[0] = santorini.Position{1, 1}
+	n.Worker[1] = santorini.Position{3, 3}
+	n.Worker[2] = santorini.Position{0, 4}
+	n.Worker[3] = santorini.Position{3, 1}
 	n.Board = [5][5]int{
 		{4, 4, 4, 4, 3},
 		{4, 2, 4, 2, 4},
@@ -54,10 +54,10 @@ func TestPlayer_ScoreP2PoVPlayerP2Win(t *testing.T) {
 func TestPlayer_ScoreP1PoVPlayerP2Win(t *testing.T) {
 	n := santorini.NewNode()
 	n.TurnOf = santorini.Player1
-	n.Worker[0] = [2]int{1, 1}
-	n.Worker[1] = [2]int{3, 3}
-	n.Worker[2] = [2]int{0, 4}
-	n.Worker[3] = [2]int{3, 1}
+	n.Worker[0] = santorini.Position{1, 1}
+	n.Worker[1] = santorini.Position{3, 3}
+	n.Worker[2] = santorini.Position{0, 4}
+	n.Worker[3] = santorini.Position{3, 1}
 	n.Board = [5][5]int{
 		{4, 4, 4, 4, 3},
 		{4, 2, 4, 2, 4},
@@ -76,10 +76,10 @@ func TestPlayer_ScoreP1PoVPlayerP2Win(t *testing.T) {
 func TestPlayer_ScoreP2PoVPlayerP1Win(t *testing.T) {
 	n := santorini.NewNode()
 	n.TurnOf = santorini.Player2
-	n.Worker[0] = [2]int{0, 4}
-	n.Worker[1] = [2]int{3, 3}
-	n.Worker[2] = [2]int{1, 1}
-	n.Worker[3] = [2]int{3, 1}
+	n.Worker[0] = santorini.Position{0, 4}
+	n.Worker[1] = santorini.Position{3, 3}
+	n.Worker[2] = santorini.Position{1, 1}
+	n.Worker[3] = santorini.Position{3, 1}
 	n.Board = [5][5]int{
 		{4, 4, 4, 4, 3},
 		{4, 2, 4, 2, 4},

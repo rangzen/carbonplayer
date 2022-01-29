@@ -6,9 +6,11 @@ import (
 	"strings"
 )
 
+type Position [2]int
+
 type Node struct {
 	TurnOf int
-	Worker [4][2]int
+	Worker [4]Position
 	Board  [5][5]int
 	score  float64
 }
