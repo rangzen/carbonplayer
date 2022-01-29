@@ -52,45 +52,45 @@ func (n *Node) String() string {
 
 func (n *Node) ASCIIArt(writer io.Writer) {
 	if n.TurnOf == 0 {
-		writer.Write([]byte("Turn of: player 1 (X)\n"))
+		_, _ = writer.Write([]byte("Turn of: player 1 (X)\n"))
 	} else {
-		writer.Write([]byte("Turn of: player 2 (O)\n"))
+		_, _ = writer.Write([]byte("Turn of: player 2 (O)\n"))
 	}
 	for y := 4; y >= 0; y-- {
-		writer.Write([]byte(strconv.Itoa(y + 1)))
-		writer.Write([]byte(" "))
+		_, _ = writer.Write([]byte(strconv.Itoa(y + 1)))
+		_, _ = writer.Write([]byte(" "))
 		for x := 0; x < 5; x++ {
 			// Building
 			switch {
 			case n.Board[x][y] > 0 && n.Board[x][y] < 4:
-				writer.Write([]byte(strconv.Itoa(n.Board[x][y])))
+				_, _ = writer.Write([]byte(strconv.Itoa(n.Board[x][y])))
 			case n.Board[x][y] == 4:
-				writer.Write([]byte("D"))
+				_, _ = writer.Write([]byte("D"))
 			default:
-				writer.Write([]byte(" "))
+				_, _ = writer.Write([]byte(" "))
 			}
 			// Player
 			switch {
 			case n.Worker[0][0] == x && n.Worker[0][1] == y:
-				writer.Write([]byte("x"))
+				_, _ = writer.Write([]byte("x"))
 			case n.Worker[1][0] == x && n.Worker[1][1] == y:
-				writer.Write([]byte("X"))
+				_, _ = writer.Write([]byte("X"))
 			case n.Worker[2][0] == x && n.Worker[2][1] == y:
-				writer.Write([]byte("o"))
+				_, _ = writer.Write([]byte("o"))
 			case n.Worker[3][0] == x && n.Worker[3][1] == y:
-				writer.Write([]byte("O"))
+				_, _ = writer.Write([]byte("O"))
 			default:
-				writer.Write([]byte(" "))
+				_, _ = writer.Write([]byte(" "))
 			}
 			// Separator
 			if x < 4 {
-				writer.Write([]byte("|"))
+				_, _ = writer.Write([]byte("|"))
 			}
 		}
-		writer.Write([]byte("\n"))
+		_, _ = writer.Write([]byte("\n"))
 	}
 	// Letters
-	writer.Write([]byte("  A  B  C  D  E\n"))
+	_, _ = writer.Write([]byte("  A  B  C  D  E\n"))
 }
 
 func (n *Node) Clone() *Node {
