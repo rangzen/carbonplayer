@@ -1,12 +1,17 @@
 package santorini
 
-import cp "github.com/rangzen/carbonplayer/pkg/carbonplayer"
+import (
+	cp "github.com/rangzen/carbonplayer/pkg/carbonplayer"
+)
 
 type player struct{}
 
 func NewPlayer() cp.Player {
 	return player{}
 }
+
+var metricAbsDistToFriends = AbsDistToFriends{}
+var metricAbsDistToEnemies = AbsDistToEnemies{}
 
 func (p player) Score(g cp.Game, cpn cp.Node, itIsYou bool) float64 {
 	var score float64
@@ -20,6 +25,9 @@ func (p player) Score(g cp.Game, cpn cp.Node, itIsYou bool) float64 {
 			return -1000
 		}
 	}
+
+	score += metricAbsDistToFriends.Value(n, itIsYou) * .7
+	score += metricAbsDistToEnemies.Value(n, itIsYou) * .3
 
 	return score
 }
