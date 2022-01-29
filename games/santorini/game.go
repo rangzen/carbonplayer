@@ -143,5 +143,5 @@ func (g Game) IsFinal(cpn cp.Node) bool {
 }
 
 func (g Game) WinnerIndex(cpn cp.Node) int {
-	return cpn.(*Node).TurnOf
+	return (cpn.(*Node).TurnOf + 1) % 2
 }
