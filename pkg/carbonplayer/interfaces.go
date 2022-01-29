@@ -39,6 +39,14 @@ type Player interface {
 	Score(g Game, s Node, source bool) float64
 }
 
+// Metric represent a value from a Node.
+// Normally used by Player to calculate a Score.
+// E.g., distance between players, numbers of free movements, etc.
+type Metric interface {
+	// Value returns the value of a certain Node regarding the represented metric.
+	Value(node Node, source bool) float64
+}
+
 // PlayerGA represents a Genetic Algorithm player.
 type PlayerGA interface {
 	// Coef returns all the actual coefficients.
