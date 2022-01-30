@@ -1,6 +1,10 @@
-package main
+package transtypage
 
-import "github.com/rangzen/carbonplayer/games/santorini"
+import (
+	"encoding/json"
+
+	"github.com/rangzen/carbonplayer/games/santorini"
+)
 
 type Position struct {
 	X int `json:"x"`
@@ -23,7 +27,7 @@ type Command struct {
 	GameState    GameState    `json:"game_state"`
 }
 
-func fromCommand(command Command) (CarbonPlayer, santorini.Node) {
+func FromCommand(command Command) (CarbonPlayer, santorini.Node) {
 	cp := CarbonPlayer{
 		Decision: command.CarbonPlayer.Decision,
 		MaxPlies: command.CarbonPlayer.MaxPlies,
@@ -41,7 +45,7 @@ func fromCommand(command Command) (CarbonPlayer, santorini.Node) {
 	return cp, node
 }
 
-func toCommand(cp CarbonPlayer, n santorini.Node) Command {
+func ToCommand(cp CarbonPlayer, n santorini.Node) Command {
 	gs := GameState{
 		TurnOf: n.TurnOf + 1,
 		Workers: [4]Position{
@@ -56,4 +60,14 @@ func toCommand(cp CarbonPlayer, n santorini.Node) Command {
 		CarbonPlayer: cp,
 		GameState:    gs,
 	}
+}
+
+func JSONErrorMessage(message string) []byte {
+	errorMessage := struct {
+		Error string `json:"error"`
+	}{
+		Error: message,
+	}
+	j, _ := json.Marshal(&errorMessage)
+	return j
 }

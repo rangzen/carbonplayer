@@ -10,6 +10,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/go-logr/stdr"
 	"github.com/rangzen/carbonplayer/games/santorini"
+	"github.com/rangzen/carbonplayer/games/santorini/transtypage"
 	"github.com/rangzen/carbonplayer/pkg/carbonplayer/decision"
 )
 
@@ -40,39 +41,29 @@ func handleNextPlay(logger logr.Logger) http.HandlerFunc {
 		body, err := io.ReadAll(r.Body)
 		if err != nil {
 			logger.Error(err, "reading body", "body", string(body))
-			w.Write(JSONErrorMessage("reading body"))
+			w.Write(transtypage.JSONErrorMessage("reading body"))
 			return
 		}
-		c := Command{}
+		c := transtypage.Command{}
 		err = json.Unmarshal(body, &c)
 		if err != nil {
 			logger.Error(err, "unmarshalling body", "body", string(body))
-			w.Write(JSONErrorMessage("unmarshalling body"))
+			w.Write(transtypage.JSONErrorMessage("unmarshalling body"))
 			return
 		}
-		cp, n := fromCommand(c)
+		cp, n := transtypage.FromCommand(c)
 		logger.Info("confReceived", "decision", cp.Decision, "maxPlies", cp.MaxPlies)
 		logger.Info("moveReceived", "santorini.Node", n.String())
 		d := decision.NewMinimax(logger, cp.MaxPlies)
 		nextMove := d.NextMove(g, p, &n)
 		logger.Info("moveCalculated", "santorini.Node", nextMove.String(), "score", nextMove.Score())
-		nextGs := toCommand(cp, *(nextMove.(*santorini.Node)))
+		nextGs := transtypage.ToCommand(cp, *(nextMove.(*santorini.Node)))
 		j, err := json.Marshal(&nextGs)
 		if err != nil {
 			logger.Error(err, "marshalling response", "body", nextGs)
-			w.Write(JSONErrorMessage("marshalling response"))
+			w.Write(transtypage.JSONErrorMessage("marshalling response"))
 			return
 		}
 		w.Write(j)
 	}
-}
-
-func JSONErrorMessage(message string) []byte {
-	errorMessage := struct {
-		Error string `json:"error"`
-	}{
-		Error: message,
-	}
-	j, _ := json.Marshal(&errorMessage)
-	return j
 }
