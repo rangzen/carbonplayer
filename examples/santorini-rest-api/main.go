@@ -25,8 +25,9 @@ func main() {
 	log.Fatal(http.ListenAndServe(":10842", nil))
 }
 
-func handleRoot(_ logr.Logger) http.HandlerFunc {
+func handleRoot(logger logr.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		logger.Info("handling root")
 		w.Write([]byte("Welcome to the Carbon Player - Santorini REST API server!"))
 	}
 }
@@ -38,6 +39,7 @@ func handleNextPlay(logger logr.Logger) http.HandlerFunc {
 		defer func(start time.Time) {
 			logger.Info("duration", "time", time.Since(start))
 		}(time.Now())
+		logger.Info("handling nextPlay")
 		w.Header().Add("Content-Type", "application/json")
 		body, err := io.ReadAll(r.Body)
 		if err != nil {
