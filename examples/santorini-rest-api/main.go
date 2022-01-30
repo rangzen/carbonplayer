@@ -21,6 +21,7 @@ func main() {
 	http.Handle("/", handleRoot(logger))
 	http.Handle("/nextPlay", handleNextPlay(logger))
 
+	logger.Info("Carbon Player - Santorini REST API Server running on localhost:10842")
 	log.Fatal(http.ListenAndServe(":10842", nil))
 }
 
