@@ -20,7 +20,7 @@ func TestNode_String(t *testing.T) {
 		{0, 0, 1, 0, 4},
 	}
 
-	assert.Equal(t, "P1.24.44.22.42.01234.00000.00001.00020.00300", node.String())
+	assert.Equal(t, "P1.24.44.22.42.00000.00001.30002.02003.00104", node.String())
 }
 
 func TestNode_ASCIIArt_RunningBoard(t *testing.T) {

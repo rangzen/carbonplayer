@@ -39,11 +39,11 @@ func (n *Node) String() string {
 		sb.WriteString(strconv.Itoa(n.Worker[i][1] + 1))
 		sb.WriteString(".")
 	}
-	for y := 4; y >= 0; y-- {
-		for x := 0; x < 5; x++ {
+	for x := 0; x < 5; x++ {
+		for y := 0; y < 5; y++ {
 			sb.WriteString(strconv.Itoa(n.Board[x][y]))
 		}
-		if y != 0 {
+		if x != 4 {
 			sb.WriteString(".")
 		}
 	}
