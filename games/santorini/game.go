@@ -22,6 +22,7 @@ func (g Game) Initial() cp.Node {
 func (g Game) PossibleChildren(cpn cp.Node) []cp.Node {
 	n := cpn.(*Node)
 	switch {
+	// First turn, Player 1 choose workers positions
 	case n.TurnOf == Player1 &&
 		isWorkerPosEqual(n.Worker[0], 0, 0) &&
 		isWorkerPosEqual(n.Worker[1], 0, 0):
@@ -43,6 +44,7 @@ func (g Game) PossibleChildren(cpn cp.Node) []cp.Node {
 			}
 		}
 		return result
+	// Second turn, Player 2 choose workers positions
 	case n.TurnOf == Player2 &&
 		isWorkerPosEqual(n.Worker[2], 0, 0) &&
 		isWorkerPosEqual(n.Worker[3], 0, 0):
@@ -72,6 +74,7 @@ func (g Game) PossibleChildren(cpn cp.Node) []cp.Node {
 			}
 		}
 		return result
+	// Normal turn
 	default:
 		result := make([]cp.Node, 0)
 		for i := 0; i < 2; i++ {
