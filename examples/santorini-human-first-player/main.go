@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	maxPlies = 2
+	maxPlies = 3
 )
 
 func main() {
