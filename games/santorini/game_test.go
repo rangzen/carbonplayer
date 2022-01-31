@@ -13,6 +13,7 @@ import (
 func printNodes(nodes []carbonplayer.Node) {
 	for i, n := range nodes {
 		fmt.Println("Node", i)
+		fmt.Println(n.String())
 		n.(*santorini.Node).ASCIIArt(os.Stdout)
 	}
 }
@@ -90,7 +91,7 @@ func TestGame_PossibleChildrenNoMoveTooHigh(t *testing.T) {
 	g := santorini.NewGame()
 
 	nodes := g.PossibleChildren(n)
-	printNodes(nodes)
+	// printNodes(nodes)
 
 	assert.Equal(t, 0, len(nodes))
 }
@@ -112,10 +113,34 @@ func TestGame_PossibleChildrenOneMoveWithoutConstruction(t *testing.T) {
 	g := santorini.NewGame()
 
 	nodes := g.PossibleChildren(n)
-	printNodes(nodes)
+	// printNodes(nodes)
 
 	assert.Equal(t, 1, len(nodes))
 	// Start position should be 2, not 3 because the win is instant when you move
 	// to a level 3 building.
 	assert.Equal(t, 2, nodes[0].(*santorini.Node).Board[1][3])
+}
+
+// TestGame_PossibleChildrenOneMoveWithAWin test if a move that lead to a win is included.
+// The build will not happen, but the node should be kept.
+func TestGame_PossibleChildrenOneMoveWithAWin(t *testing.T) {
+	n := santorini.NewNode()
+	n.TurnOf = santorini.Player2
+	n.Worker[0] = santorini.Position{0, 2}
+	n.Worker[1] = santorini.Position{3, 0}
+	n.Worker[2] = santorini.Position{3, 2}
+	n.Worker[3] = santorini.Position{3, 4}
+	n.Board = [5][5]int{
+		{0, 4, 0, 4, 0},
+		{4, 4, 4, 4, 4},
+		{0, 4, 0, 4, 2},
+		{0, 4, 0, 4, 2},
+		{0, 4, 0, 3, 2},
+	}
+	g := santorini.NewGame()
+
+	nodes := g.PossibleChildren(n)
+	// printNodes(nodes)
+
+	assert.Equal(t, 7, len(nodes))
 }

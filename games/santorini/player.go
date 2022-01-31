@@ -19,15 +19,17 @@ func (p player) Score(g cp.Game, cpn cp.Node, itIsYou bool) float64 {
 
 	final := g.IsFinal(cpn)
 	if final {
-		if n.TurnOf != g.WinnerIndex(cpn) && itIsYou {
-			return 1000
-		} else {
+		if itIsYou {
 			return -1000
+		} else {
+			return 1000
 		}
 	}
 
 	score += metricAbsDistToFriends.Value(n, itIsYou) * .7
 	score += metricAbsDistToEnemies.Value(n, itIsYou) * .3
-
+	if itIsYou {
+		score *= -1
+	}
 	return score
 }
