@@ -38,6 +38,9 @@ func main() {
 			actualNode.(*santorini.Node).Worker[workerIndex][0] = x
 			actualNode.(*santorini.Node).Worker[workerIndex][1] = y
 			actualNode.(*santorini.Node).ASCIIArt(os.Stdout)
+			if g.IsFinal(actualNode) {
+				break
+			}
 			x, y = askPosition("Build at")
 			actualNode.(*santorini.Node).Board[x][y]++
 			actualNode.(*santorini.Node).TurnOf = santorini.Player2
