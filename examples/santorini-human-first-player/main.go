@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
+	"strings"
 
 	"github.com/go-logr/stdr"
 	"github.com/rangzen/carbonplayer/games/santorini"
@@ -31,41 +33,17 @@ func main() {
 		playerIndex := actualNode.(*santorini.Node).TurnOf
 		if playerIndex == 0 {
 			actualNode.(*santorini.Node).ASCIIArt(os.Stdout)
-			fmt.Printf("Worker [1-2]:")
-			var workerIndex int
-			_, err := fmt.Scan(&workerIndex)
-			if err != nil {
-				log.Fatalf("getting human player worker index: %v", err)
-			}
-			fmt.Printf("X [1-5]:")
-			var x int
-			_, err = fmt.Scan(&x)
-			if err != nil {
-				log.Fatalf("getting human player worker x: %v", err)
-			}
-			fmt.Printf("Y [1-5]:")
-			var y int
-			_, err = fmt.Scan(&y)
-			if err != nil {
-				log.Fatalf("getting human player worker y: %v", err)
-			}
-			actualNode.(*santorini.Node).Worker[workerIndex-1][0] = x - 1
-			actualNode.(*santorini.Node).Worker[workerIndex-1][1] = y - 1
+			workerIndex := askWorker()
+			x, y := askPosition("Move to")
+			actualNode.(*santorini.Node).Worker[workerIndex][0] = x
+			actualNode.(*santorini.Node).Worker[workerIndex][1] = y
 			actualNode.(*santorini.Node).ASCIIArt(os.Stdout)
-			fmt.Println("Build at")
-			fmt.Printf("X:")
-			_, err = fmt.Scan(&x)
-			if err != nil {
-				log.Fatalf("getting human player builder x: %v", err)
-			}
-			fmt.Printf("Y:")
-			_, err = fmt.Scan(&y)
-			if err != nil {
-				log.Fatalf("getting human player builder y: %v", err)
-			}
-			actualNode.(*santorini.Node).Board[x-1][y-1]++
+			x, y = askPosition("Build at")
+			actualNode.(*santorini.Node).Board[x][y]++
 			actualNode.(*santorini.Node).TurnOf = santorini.Player2
+			actualNode.(*santorini.Node).ASCIIArt(os.Stdout)
 		} else {
+			fmt.Println("searching the next move...")
 			actualNode = d.NextMove(g, p, actualNode)
 			logger.Info("chosen", "string", actualNode.String(), "score", actualNode.Score())
 		}
@@ -80,4 +58,44 @@ func main() {
 	case 2:
 		fmt.Println("Winner: Player 2")
 	}
+}
+
+func askWorker() int {
+	fmt.Printf("Worker [x/X]: ")
+	var workerMark string
+	_, err := fmt.Scan(&workerMark)
+	if err != nil {
+		log.Fatalf("getting human player worker mark: %v", err)
+	}
+	var workerIndex int
+	if strings.Compare(workerMark, "X") == 0 {
+		workerIndex++
+	}
+	return workerIndex
+}
+
+func askPosition(message string) (int, int) {
+	fmt.Printf("%s [A1-E5]: ", message)
+	var position string
+	_, err := fmt.Scan(&position)
+	if err != nil {
+		log.Fatalf("getting position: %v", err)
+	}
+	var x, y int
+	switch strings.ToLower(position[:1]) {
+	case "b":
+		x = 1
+	case "c":
+		x = 2
+	case "d":
+		x = 3
+	case "e":
+		x = 4
+	}
+	y, err = strconv.Atoi(position[1:])
+	y--
+	if err != nil {
+		log.Fatalf("getting Y from position: %v", err)
+	}
+	return x, y
 }
