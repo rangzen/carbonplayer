@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Carbon Player - Santorini</title>
+    <style media="screen">
+        text {
+            font-size: 12px;
+            fill: white;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+    </style>
+</head>
+<body>
+<p>Carbon Player - Santorini</p>
+
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="600" height="600"
+     viewBox="0 0 600 600"
+     id="svg-board">
+    <rect height="100%" width="100%" fill="#000"/>
+</svg>
+
+<!-- Generate the board -->
+<script type="text/javascript">
+    const heightCase = 100
+    const widthCase = 100
+    const distBetweenCase = 6
+    const margin = 20
+    const marginLeft = 600 - 5 * heightCase - 4 * distBetweenCase - margin
+    const svg = document.getElementById("svg-board")
+    const svgns = "http://www.w3.org/2000/svg"
+    for (let x = 0; x < 5; x++) {
+        for (let y = 0; y < 5; y++) {
+            let rect = document.createElementNS(svgns, "rect")
+            let id = String.fromCharCode(96 + x + 1) + (y + 1)
+            rect.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase)
+            rect.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase)
+            rect.setAttribute("width", widthCase)
+            rect.setAttribute("height", heightCase)
+            rect.setAttribute("fill", "green")
+            rect.setAttribute("id", id)
+            rect.addEventListener("click", function () {
+                console.log("clicked:" + id);
+                addLog(id);
+            })
+            svg.appendChild(rect)
+            let txt = document.createElementNS(svgns, "text")
+            txt.textContent = String.fromCharCode(64 + x + 1) + (y + 1)
+            txt.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase + 10)
+            txt.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase + heightCase - 10)
+            svg.appendChild(txt)
+        }
+    }
+
+    function addLog(id) {
+        let log = document.getElementById("log")
+        log.innerText += id
+    }
+</script>
+
+<p id="log"></p>
+
+</body>
+</html>
