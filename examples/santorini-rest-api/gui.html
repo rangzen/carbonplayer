@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Carbon Player - Santorini</title>
     <style media="screen">
-        text {
+        text.board-coordinates {
             font-size: 12px;
             fill: white;
             text-anchor: middle;
@@ -23,41 +23,228 @@
     <rect height="100%" width="100%" fill="#000"/>
 </svg>
 
-<!-- Generate the board -->
+<!-- Main script -->
 <script type="text/javascript">
+    const svgns = "http://www.w3.org/2000/svg"
     const heightCase = 100
     const widthCase = 100
     const distBetweenCase = 6
     const margin = 20
     const marginLeft = 600 - 5 * heightCase - 4 * distBetweenCase - margin
-    const svg = document.getElementById("svg-board")
-    const svgns = "http://www.w3.org/2000/svg"
-    for (let x = 0; x < 5; x++) {
-        for (let y = 0; y < 5; y++) {
-            let rect = document.createElementNS(svgns, "rect")
-            let id = String.fromCharCode(96 + x + 1) + (y + 1)
-            rect.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase)
-            rect.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase)
-            rect.setAttribute("width", widthCase)
-            rect.setAttribute("height", heightCase)
-            rect.setAttribute("fill", "green")
-            rect.setAttribute("id", id)
-            rect.addEventListener("click", function () {
-                console.log("clicked:" + id);
-                addLog(id);
-            })
-            svg.appendChild(rect)
-            let txt = document.createElementNS(svgns, "text")
-            txt.textContent = String.fromCharCode(64 + x + 1) + (y + 1)
-            txt.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase + 10)
-            txt.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase + heightCase - 10)
-            svg.appendChild(txt)
+    const buildingWidth = 60
+    const buildingHeight = 12
+    const caseBackground = "green"
+    const caseBgdPlayer1 = "blue"
+    const caseBgdPlayer2 = "red"
+
+    let url = "http://localhost:10842"
+    let urlNextplay = url + "/nextPlay"
+    let gameState = {
+        "carbon_player": {
+            "decision": "minimax",
+            "max_plies": 2
+        },
+        "game_state": {
+            "turn_of": 1,
+            "workers": [
+                {
+                    "x": 2,
+                    "y": 4
+                },
+                {
+                    "x": 4,
+                    "y": 4
+                },
+                {
+                    "x": 2,
+                    "y": 2
+                },
+                {
+                    "x": 4,
+                    "y": 2
+                }
+            ],
+            "board": [
+                [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    0,
+                    2
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    0,
+                    3
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    0,
+                    4
+                ]
+            ]
+        }
+    }
+    let workerSelected = null
+    let moveSelected = null
+    let buildSelected = null
+
+    // Draw the complete board.
+    function drawBoard(gs) {
+        const svg = document.getElementById("svg-board")
+        for (let x = 0; x < 5; x++) {
+            for (let y = 0; y < 5; y++) {
+                let rect = document.createElementNS(svgns, "rect")
+                rect.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase)
+                rect.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase)
+                rect.setAttribute("width", widthCase)
+                rect.setAttribute("height", heightCase)
+                // Player's workers background
+                if ((gs.game_state.workers[0].x - 1 === x && gs.game_state.workers[0].y - 1 === y) ||
+                    (gs.game_state.workers[1].x - 1 === x && gs.game_state.workers[1].y - 1 === y)) {
+                    rect.setAttribute("fill", caseBgdPlayer1)
+                } else if ((gs.game_state.workers[2].x - 1 === x && gs.game_state.workers[2].y - 1 === y) ||
+                    (gs.game_state.workers[3].x - 1 === x && gs.game_state.workers[3].y - 1 === y)) {
+                    rect.setAttribute("fill", caseBgdPlayer2)
+                } else {
+                    rect.setAttribute("fill", caseBackground)
+                }
+                let id = String.fromCharCode(96 + x + 1) + (y + 1)
+                rect.setAttribute("id", id)
+                rect.addEventListener("click", function () {
+                    log(id);
+                    handleCaseClick(x + 1, y + 1);
+                })
+                svg.appendChild(rect)
+                // Cases' coordinates
+                let txt = document.createElementNS(svgns, "text")
+                txt.textContent = String.fromCharCode(64 + x + 1) + (y + 1)
+                txt.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase + 10)
+                txt.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase + heightCase - 10)
+                txt.setAttribute("class", "board-coordinates")
+                svg.appendChild(txt)
+                // Buildings
+                let level = gs.game_state.board[x][y]
+                if (level > 0) {
+                    svg.appendChild(drawBuilding(x, y, 1))
+                    if (level > 1) {
+                        svg.appendChild(drawBuilding(x, y, 2))
+                    }
+                    if (level > 2) {
+                        svg.appendChild(drawBuilding(x, y, 3))
+                    }
+                    if (level > 3) {
+                        svg.appendChild(drawDome(x, y))
+                    }
+                }
+            }
         }
     }
 
-    function addLog(id) {
+    // Return a SVG building.
+    function drawBuilding(x, y, level) {
+        let rect = document.createElementNS(svgns, "rect")
+        rect.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase + ((widthCase - buildingWidth) / 2))
+        rect.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase + (5.5 - level) * buildingHeight + (4 - level) * distBetweenCase)
+        rect.setAttribute("width", buildingWidth)
+        rect.setAttribute("height", buildingHeight)
+        rect.setAttribute("fill", "white")
+        return rect
+    }
+
+    // Return a SVG dome.
+    function drawDome(x, y) {
+        let path = document.createElementNS(svgns, "path")
+        path.setAttribute("d", "M " +
+            (marginLeft + x * widthCase + x * distBetweenCase + ((widthCase - buildingWidth) / 2)) +
+            "," +
+            (margin + (4 - y) * heightCase + (4 - y) * distBetweenCase + (5.5 - 3) * buildingHeight + distBetweenCase) +
+            " a 1,1 0 1,1 " + buildingWidth + ",0")
+        path.setAttribute("fill", "blue")
+        return path
+    }
+
+    drawBoard(gameState)
+
+    // Log when a case is clicked.
+    function log(id) {
+        console.log("clicked:" + id);
         let log = document.getElementById("log")
         log.innerText += id
+    }
+
+    // Handle flow of clicked cases.
+    function handleCaseClick(x, y) {
+        // First click: which worker?
+        if (workerSelected === null) {
+            workerSelected = [x, y]
+            return
+        }
+        // Second click: where to move him?
+        if (moveSelected === null) {
+            moveSelected = [x, y]
+            return;
+        }
+        buildSelected = [x, y]
+
+        // Third click: where to build?
+        console.log("post 3rd click:", workerSelected, moveSelected, buildSelected)
+
+        // Find worker index.
+        let workerIndex
+        for (let i = 0; i < 4; i++) {
+            if (gameState.game_state.workers[i].x === workerSelected[0] && gameState.game_state.workers[i].y === workerSelected[1]) {
+                workerIndex = i
+                break
+            }
+        }
+
+        // Update the game's state.
+        gameState.game_state.workers[workerIndex].x = moveSelected[0]
+        gameState.game_state.workers[workerIndex].y = moveSelected[1]
+        gameState.game_state.board[buildSelected[0] - 1][buildSelected[1] - 1]++
+        gameState.game_state.turn_of = 2
+        console.log("post gameState changed:", gameState)
+
+        // Ask to the REST API from the new game's state for the next play.
+        async function postGameState() {
+            const response = await fetch(urlNextplay, {
+                method: "POST",
+                body: JSON.stringify(gameState),
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+            });
+            const newGameState = await response.json();
+            console.log("new gameState:", newGameState);
+            gameState = newGameState
+            drawBoard(gameState);
+        }
+
+        postGameState();
+
+        workerSelected = null;
+        moveSelected = null;
+        buildSelected = null;
     }
 </script>
 
