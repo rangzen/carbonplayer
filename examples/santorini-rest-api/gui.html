@@ -209,12 +209,20 @@
         console.log("post 3rd click:", workerSelected, moveSelected, buildSelected)
 
         // Find worker index.
-        let workerIndex
+        let workerIndex = -1
         for (let i = 0; i < 4; i++) {
             if (gameState.game_state.workers[i].x === workerSelected[0] && gameState.game_state.workers[i].y === workerSelected[1]) {
                 workerIndex = i
                 break
             }
+        }
+        if (workerIndex === -1) {
+            console.log("invalid worker selection");
+            alert("invalid worker selection")
+            workerSelected = null;
+            moveSelected = null;
+            buildSelected = null;
+            return;
         }
 
         // Update the game's state.
@@ -223,6 +231,7 @@
         gameState.game_state.board[buildSelected[0] - 1][buildSelected[1] - 1]++
         gameState.game_state.turn_of = 2
         console.log("post gameState changed:", gameState)
+        drawBoard(gameState)
 
         // Ask to the REST API from the new game's state for the next play.
         async function postGameState() {
