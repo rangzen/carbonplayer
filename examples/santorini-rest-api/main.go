@@ -41,6 +41,12 @@ func handleNextPlay(logger logr.Logger) http.HandlerFunc {
 		}(time.Now())
 		logger.Info("handling nextPlay")
 		w.Header().Add("Content-Type", "application/json")
+		w.Header().Add("Access-Control-Allow-Origin", "*")
+		w.Header().Add("Access-Control-Allow-Headers", "content-type")
+		if r.Method == http.MethodOptions {
+			logger.Info("OPTIONS request")
+			return
+		}
 		body, err := io.ReadAll(r.Body)
 		if err != nil {
 			logger.Error(err, "reading body", "body", string(body))
