@@ -185,8 +185,6 @@
         return path
     }
 
-    drawBoard(gameState)
-
     // Clear the click states.
     function clearClickStates() {
         workerSelected = null;
@@ -299,6 +297,8 @@
 
         clearClickStates()
     }
+
+    drawBoard(gameState)
 </script>
 
 <p id="log"></p>
