@@ -36,10 +36,7 @@
     const caseBackground = "green"
     const caseBgdPlayer1 = "blue"
     const caseBgdPlayer2 = "red"
-
-    let url = "http://localhost:10842"
-    let urlNextplay = url + "/nextPlay"
-    let gameState = {
+    const initialGameState = {
         "carbon_player": {
             "decision": "minimax",
             "max_plies": 3
@@ -103,6 +100,10 @@
             ]
         }
     }
+
+    let url = "http://localhost:10842"
+    let urlNextplay = url + "/nextPlay"
+    let gameState = JSON.parse(JSON.stringify(initialGameState));
     let workerSelected = null
     let moveSelected = null
     let buildSelected = null
@@ -199,15 +200,16 @@
     }
 
     // Handle flow of clicked cases.
+    // x and y are one based.
     function handleCaseClick(x, y) {
         // First click: which worker?
         if (workerSelected === null) {
             workerSelected = [x, y]
-            if ((gameState.game_state.turn_of === 1 && ((gameState.game_state.workers[0].x !== x && gameState.game_state.workers[0].y !== y) ||
-                                                        (gameState.game_state.workers[1].x !== x && gameState.game_state.workers[1].y !== y))
+            if ((gameState.game_state.turn_of === 1 && !((gameState.game_state.workers[0].x === x && gameState.game_state.workers[0].y === y) ||
+                        (gameState.game_state.workers[1].x === x && gameState.game_state.workers[1].y === y))
                 ) ||
-                (gameState.game_state.turn_of === 2 && ((gameState.game_state.workers[2].x !== x && gameState.game_state.workers[2].y !== y) ||
-                                                        (gameState.game_state.workers[3].x !== x && gameState.game_state.workers[3].y !== y))
+                (gameState.game_state.turn_of === 2 && !((gameState.game_state.workers[2].x === x && gameState.game_state.workers[2].y === y) ||
+                        (gameState.game_state.workers[3].x === x && gameState.game_state.workers[3].y === y))
                 )
             ) {
                 console.log("you must choose one of you worker");
@@ -219,6 +221,12 @@
         // Second click: where to move him?
         if (moveSelected === null) {
             moveSelected = [x, y]
+            if (gameState.game_state.board[x - 1][y - 1] === 3) {
+                console.log("winning move")
+                alert("You won!")
+                gameState = JSON.parse(JSON.stringify(initialGameState))
+                drawBoard(gameState)
+            }
             return;
         }
         buildSelected = [x, y]
@@ -274,8 +282,18 @@
             });
             const newGameState = await response.json();
             console.log("new gameState:", newGameState);
-            gameState = newGameState
+            gameState = JSON.parse(JSON.stringify(newGameState))
             drawBoard(gameState);
+            if (gameState.game_state.board[gameState.game_state.workers[0].x-1][gameState.game_state.workers[0].y-1] === 3 ||
+                gameState.game_state.board[gameState.game_state.workers[1].x-1][gameState.game_state.workers[1].y-1] === 3 ||
+                gameState.game_state.board[gameState.game_state.workers[2].x-1][gameState.game_state.workers[2].y-1] === 3 ||
+                gameState.game_state.board[gameState.game_state.workers[3].x-1][gameState.game_state.workers[3].y-1] === 3) {
+                console.log("losing move")
+                alert("You lose!")
+                gameState = JSON.parse(JSON.stringify(initialGameState))
+                drawBoard(gameState)
+                return
+            }
         }
 
         postGameState();
