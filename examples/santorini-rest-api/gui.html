@@ -191,12 +191,30 @@
         log.innerText += id
     }
 
+    // Clear the click states.
+    function clearClickStates() {
+        workerSelected = null;
+        moveSelected = null;
+        buildSelected = null;
+    }
+
     // Handle flow of clicked cases.
     function handleCaseClick(x, y) {
         // First click: which worker?
         if (workerSelected === null) {
             workerSelected = [x, y]
-            return
+            if ((gameState.game_state.turn_of === 1 && ((gameState.game_state.workers[0].x !== x && gameState.game_state.workers[0].y !== y) ||
+                                                        (gameState.game_state.workers[1].x !== x && gameState.game_state.workers[1].y !== y))
+                ) ||
+                (gameState.game_state.turn_of === 2 && ((gameState.game_state.workers[2].x !== x && gameState.game_state.workers[2].y !== y) ||
+                                                        (gameState.game_state.workers[3].x !== x && gameState.game_state.workers[3].y !== y))
+                )
+            ) {
+                console.log("you must choose one of you worker");
+                alert("you must choose one of you worker")
+                clearClickStates()
+            }
+            return;
         }
         // Second click: where to move him?
         if (moveSelected === null) {
@@ -219,12 +237,23 @@
         if (workerIndex === -1) {
             console.log("invalid worker selection");
             alert("invalid worker selection")
-            workerSelected = null;
-            moveSelected = null;
-            buildSelected = null;
+            clearClickStates()
             return;
         }
-
+        // Check if the selected worker is the same case than the move.
+        if (workerSelected[0] === moveSelected[0] && workerSelected[1] === moveSelected[1]) {
+            console.log("moving on the selected worker case (no move)");
+            alert("moving on the selected worker case (no move)")
+            clearClickStates();
+            return;
+        }
+        // Check if the build is the same case than the move.
+        if (moveSelected[0] === buildSelected[0] && moveSelected[1] === buildSelected[1]) {
+            console.log("building on the selected move case");
+            alert("building on the selected move case")
+            clearClickStates()
+            return;
+        }
         // Update the game's state.
         gameState.game_state.workers[workerIndex].x = moveSelected[0]
         gameState.game_state.workers[workerIndex].y = moveSelected[1]
@@ -251,9 +280,7 @@
 
         postGameState();
 
-        workerSelected = null;
-        moveSelected = null;
-        buildSelected = null;
+        clearClickStates()
     }
 </script>
 
