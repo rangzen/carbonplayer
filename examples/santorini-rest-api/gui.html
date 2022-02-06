@@ -131,7 +131,7 @@
                 let id = String.fromCharCode(96 + x + 1) + (y + 1)
                 rect.setAttribute("id", id)
                 rect.addEventListener("click", function () {
-                    log(id);
+                    console.log("clicked:" + id);
                     handleCaseClick(x + 1, y + 1);
                 })
                 svg.appendChild(rect)
@@ -184,13 +184,6 @@
     }
 
     drawBoard(gameState)
-
-    // Log when a case is clicked.
-    function log(id) {
-        console.log("clicked:" + id);
-        let log = document.getElementById("log")
-        log.innerText += id
-    }
 
     // Clear the click states.
     function clearClickStates() {
@@ -267,6 +260,11 @@
         gameState.game_state.workers[workerIndex].y = moveSelected[1]
         gameState.game_state.board[buildSelected[0] - 1][buildSelected[1] - 1]++
         gameState.game_state.turn_of = 2
+        let log = document.getElementById("log")
+        log.innerText += "Worker " + (workerIndex + 1) +
+            " move to "+ String.fromCharCode(64 + moveSelected[0]) + "" + moveSelected[1] +
+            " and build at " + String.fromCharCode(64 + buildSelected[0]) + "" + buildSelected[1] + "\n"
+        clearClickStates()
         console.log("post gameState changed:", gameState)
         drawBoard(gameState)
 
