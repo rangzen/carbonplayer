@@ -201,6 +201,45 @@
         buildSelected = null;
     }
 
+    // Ask to the REST API from the new game's state for the next play.
+    function postGameState() {
+        fetch(urlNextplay, {
+            method: "POST",
+            body: JSON.stringify(gameState),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+            .then((response) => {
+                if (response.status >= 200 && response.status <= 299) {
+                    response.json()
+                        .then((json) => {
+                            const newGameState = json
+                            console.log("new gameState:", newGameState);
+                            gameState = JSON.parse(JSON.stringify(newGameState))
+                            drawBoard(gameState);
+                            if (gameState.game_state.board[gameState.game_state.workers[0].x - 1][gameState.game_state.workers[0].y - 1] === 3 ||
+                                gameState.game_state.board[gameState.game_state.workers[1].x - 1][gameState.game_state.workers[1].y - 1] === 3 ||
+                                gameState.game_state.board[gameState.game_state.workers[2].x - 1][gameState.game_state.workers[2].y - 1] === 3 ||
+                                gameState.game_state.board[gameState.game_state.workers[3].x - 1][gameState.game_state.workers[3].y - 1] === 3) {
+                                console.log("losing move")
+                                alert("You lose!")
+                                gameState = JSON.parse(JSON.stringify(initialGameState))
+                                drawBoard(gameState)
+                            }
+                        })
+                } else {
+                    console.error(response.status, response.statusText)
+                    alert(response.statusText)
+                }
+            })
+            .catch((err) => {
+                console.error(err)
+                alert(err)
+            });
+    }
+
     // Handle flow of clicked cases.
     // x and y are one based.
     function handleCaseClick(x, y) {
@@ -276,31 +315,6 @@
         clearClickStates()
         console.log("post gameState changed:", gameState)
         drawBoard(gameState)
-
-        // Ask to the REST API from the new game's state for the next play.
-        async function postGameState() {
-            const response = await fetch(urlNextplay, {
-                method: "POST",
-                body: JSON.stringify(gameState),
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                }
-            });
-            const newGameState = await response.json();
-            console.log("new gameState:", newGameState);
-            gameState = JSON.parse(JSON.stringify(newGameState))
-            drawBoard(gameState);
-            if (gameState.game_state.board[gameState.game_state.workers[0].x-1][gameState.game_state.workers[0].y-1] === 3 ||
-                gameState.game_state.board[gameState.game_state.workers[1].x-1][gameState.game_state.workers[1].y-1] === 3 ||
-                gameState.game_state.board[gameState.game_state.workers[2].x-1][gameState.game_state.workers[2].y-1] === 3 ||
-                gameState.game_state.board[gameState.game_state.workers[3].x-1][gameState.game_state.workers[3].y-1] === 3) {
-                console.log("losing move")
-                alert("You lose!")
-                gameState = JSON.parse(JSON.stringify(initialGameState))
-                drawBoard(gameState)
-            }
-        }
 
         postGameState();
 
