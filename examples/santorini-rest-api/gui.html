@@ -262,7 +262,7 @@
         gameState.game_state.turn_of = 2
         let log = document.getElementById("log")
         log.innerText += "Worker " + (workerIndex + 1) +
-            " move to "+ String.fromCharCode(64 + moveSelected[0]) + "" + moveSelected[1] +
+            " move to " + String.fromCharCode(64 + moveSelected[0]) + "" + moveSelected[1] +
             " and build at " + String.fromCharCode(64 + buildSelected[0]) + "" + buildSelected[1] + "\n"
         clearClickStates()
         console.log("post gameState changed:", gameState)
