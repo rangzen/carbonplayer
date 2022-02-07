@@ -15,7 +15,7 @@
         }
 
         text.board-coordinates {
-            font-size: 12px;
+            font-size: 24px;
             fill: white;
             text-anchor: middle;
             dominant-baseline: middle;
@@ -123,6 +123,13 @@
     function drawBoard(gs) {
         const svg = document.getElementById("svg-board")
         for (let x = 0; x < 5; x++) {
+            // Cases' coordinates on X
+            let txt = document.createElementNS(svgns, "text")
+            txt.textContent = String.fromCharCode(64 + x + 1)
+            txt.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase + 10 + widthCase / 3)
+            txt.setAttribute("y", margin + 5 * heightCase + 5 * distBetweenCase + heightCase / 4)
+            txt.setAttribute("class", "board-coordinates")
+            svg.appendChild(txt)
             for (let y = 0; y < 5; y++) {
                 let rect = document.createElementNS(svgns, "rect")
                 rect.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase)
@@ -146,13 +153,15 @@
                     handleCaseClick(x + 1, y + 1);
                 })
                 svg.appendChild(rect)
-                // Cases' coordinates
-                let txt = document.createElementNS(svgns, "text")
-                txt.textContent = String.fromCharCode(64 + x + 1) + (y + 1)
-                txt.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase + 10)
-                txt.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase + heightCase - 10)
-                txt.setAttribute("class", "board-coordinates")
-                svg.appendChild(txt)
+                // Cases' coordinates on Y
+                if (x == 0) {
+                    let txt = document.createElementNS(svgns, "text")
+                    txt.textContent = "" + (y + 1)
+                    txt.setAttribute("x", marginLeft / 2)
+                    txt.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase + heightCase / 2)
+                    txt.setAttribute("class", "board-coordinates")
+                    svg.appendChild(txt)
+                }
                 // Buildings
                 let level = gs.game_state.board[x][y]
                 if (level > 0) {
