@@ -39,6 +39,7 @@
     const heightCase = 100
     const widthCase = 100
     const distBetweenCase = 6
+    const strokeSize = 6
     const margin = 20
     const marginLeft = 600 - 5 * heightCase - 4 * distBetweenCase - margin
     const buildingWidth = 60
@@ -136,20 +137,25 @@
             txt.setAttribute("class", "board-coordinates")
             svg.appendChild(txt)
             for (let y = 0; y < 5; y++) {
+                // Case
                 let rect = document.createElementNS(svgns, "rect")
-                rect.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase)
-                rect.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase)
-                rect.setAttribute("width", widthCase)
-                rect.setAttribute("height", heightCase)
+                rect.setAttribute("x", marginLeft + x * widthCase + x * distBetweenCase + strokeSize)
+                rect.setAttribute("y", margin + (4 - y) * heightCase + (4 - y) * distBetweenCase + strokeSize)
+                rect.setAttribute("width", widthCase - strokeSize)
+                rect.setAttribute("height", heightCase - strokeSize)
+                rect.setAttribute("fill", caseBackground)
                 // Player's workers background
                 if ((gs.game_state.workers[0].x - 1 === x && gs.game_state.workers[0].y - 1 === y) ||
                     (gs.game_state.workers[1].x - 1 === x && gs.game_state.workers[1].y - 1 === y)) {
-                    rect.setAttribute("fill", caseBgdPlayer1)
+                    rect.setAttribute("stroke-width", strokeSize)
+                    rect.setAttribute("stroke", caseBgdPlayer1)
                 } else if ((gs.game_state.workers[2].x - 1 === x && gs.game_state.workers[2].y - 1 === y) ||
                     (gs.game_state.workers[3].x - 1 === x && gs.game_state.workers[3].y - 1 === y)) {
-                    rect.setAttribute("fill", caseBgdPlayer2)
+                    rect.setAttribute("stroke-width", strokeSize)
+                    rect.setAttribute("stroke", caseBgdPlayer2)
                 } else {
-                    rect.setAttribute("fill", caseBackground)
+                    rect.setAttribute("stroke-width", "0")
+                    rect.setAttribute("stroke", caseBackground)
                 }
                 let id = String.fromCharCode(96 + x + 1) + (y + 1)
                 rect.setAttribute("id", id)
