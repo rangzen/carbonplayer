@@ -7,6 +7,13 @@
         h1 {
             text-align: center;
         }
+
+        div.board {
+            max-width: 500px;
+            width: 100%;
+            height: auto;
+        }
+
         text.board-coordinates {
             font-size: 12px;
             fill: white;
@@ -18,12 +25,14 @@
 <body>
 <h1>Carbon Player - Santorini</h1>
 
-<svg xmlns="http://www.w3.org/2000/svg"
-     width="100%" height="100%"
-     viewBox="0 0 600 600"
-     id="svg-board">
-    <rect height="100%" width="100%" fill="#000"/>
-</svg>
+<div class="board">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="100%" height="auto"
+         viewBox="0 0 600 600"
+         id="svg-board">
+        <rect height="100%" width="100%" fill="#000"/>
+    </svg>
+</div>
 
 <!-- Main script -->
 <script type="text/javascript">
