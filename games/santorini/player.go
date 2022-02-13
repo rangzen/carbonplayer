@@ -12,6 +12,7 @@ func NewPlayer() cp.Player {
 
 var metricAbsDistToFriends = AbsDistToFriends{}
 var metricAbsDistToEnemies = AbsDistToEnemies{}
+var metricGoingUp = GoingUp{}
 
 func (p player) Score(g cp.Game, cpn cp.Node, itIsYou bool) float64 {
 	var score float64
@@ -28,6 +29,7 @@ func (p player) Score(g cp.Game, cpn cp.Node, itIsYou bool) float64 {
 
 	score += metricAbsDistToFriends.Value(n, itIsYou) * .7
 	score += metricAbsDistToEnemies.Value(n, itIsYou) * .3
+	score += metricGoingUp.Value(n, itIsYou) * .6
 	if itIsYou {
 		score *= -1
 	}
