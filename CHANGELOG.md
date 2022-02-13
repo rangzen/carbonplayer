@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add a context to Cancel or Timeout long process.
 
 ## [Unreleased]
-- Santorini
+- Add Santorini game.
+- Add Tic Tac Toe game.
 
 [Unreleased]: https://github.com/rangzen/carbonplayer/compare/v0.0.1...HEAD
