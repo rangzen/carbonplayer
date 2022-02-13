@@ -7,9 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var metric santorini.AbsDistToFriends
-
 func TestAbsDistToFriends_ValueCenterSameForBothPlayer(t *testing.T) {
+	var metric santorini.AbsDistToFriends
 	n := santorini.NewNode()
 	n.TurnOf = santorini.Player1
 	n.Worker[0] = santorini.Position{1, 3}
@@ -21,10 +20,11 @@ func TestAbsDistToFriends_ValueCenterSameForBothPlayer(t *testing.T) {
 	distP2 := metric.Value(n, false)
 
 	assert.InEpsilon(t, 0.5, distP1, 10e-2)
-	assert.InEpsilon(t, -0.5, distP2, 10e-2)
+	assert.InEpsilon(t, 0.5, distP2, 10e-2)
 }
 
 func TestAbsDistToFriends_ValueCenterSameForBothPlayerAndNormalizedSoNear1(t *testing.T) {
+	var metric santorini.AbsDistToFriends
 	n := santorini.NewNode()
 	n.TurnOf = santorini.Player1
 	n.Worker[0] = santorini.Position{0, 4}
@@ -36,5 +36,5 @@ func TestAbsDistToFriends_ValueCenterSameForBothPlayerAndNormalizedSoNear1(t *te
 	distP2 := metric.Value(n, false)
 
 	assert.InEpsilon(t, 1., distP1, 10e-2)
-	assert.InEpsilon(t, -1., distP2, 10e-2)
+	assert.InEpsilon(t, 1., distP2, 10e-2)
 }

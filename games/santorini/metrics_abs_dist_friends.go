@@ -11,9 +11,6 @@ func (m AbsDistToFriends) Value(cpn carbonplayer.Node, source bool) float64 {
 	n := cpn.(*Node)
 	playerIndex := PlayerIndex(n.TurnOf, source)
 	dist := DistanceBetween(n.Worker[playerIndex*2], n.Worker[playerIndex*2+1])
-	value := Normalize([]float64{dist})
-	if !source {
-		value *= -1
-	}
+	value := NormalizeAbsDist([]float64{dist})
 	return value
 }
