@@ -1,4 +1,6 @@
-# Carbon Player - Santorini REST API
+# Carbon Player - Santorini - REST API
+
+Demo of a Santorini REST API server.
 
 ## Classic HTTP Server
 
