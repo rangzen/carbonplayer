@@ -14,7 +14,7 @@ func (m AbsDistToEnemies) Value(cpn carbonplayer.Node, source bool) float64 {
 	dist03 := DistanceBetween(n.Worker[0], n.Worker[3])
 	dist12 := DistanceBetween(n.Worker[1], n.Worker[2])
 	dist13 := DistanceBetween(n.Worker[1], n.Worker[3])
-	value := Normalize([]float64{dist02, dist03, dist12, dist13})
+	value := NormalizeAbsDist([]float64{dist02, dist03, dist12, dist13})
 	if !source {
 		value *= -1
 	}

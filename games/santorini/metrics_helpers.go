@@ -9,9 +9,9 @@ func DistanceBetween(p1 Position, p2 Position) float64 {
 	return math.Sqrt(math.Pow(float64(p1[0]-p2[0]), 2) + math.Pow(float64(p1[1]-p2[1]), 2))
 }
 
-// Normalize normalizes absolute distances on the board.
+// NormalizeAbsDist normalizes absolute distances on the board.
 // Max distance on a Santorini board is the diagonal with Sqrt(4^2+4^2) ~ 5.6569
-func Normalize(distances []float64) float64 {
+func NormalizeAbsDist(distances []float64) float64 {
 	var result float64
 	for _, distance := range distances {
 		result += distance
