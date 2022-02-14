@@ -1,6 +1,6 @@
 # Carbon Player Framework
 
-Carbon Player Framework is a personal tool for ideas exploration about 2 players board games simulation with some decision algorithm like minimax and genetic algorithm.  
+The Carbon Player Framework is a personal tool for ideas exploration about 2 players board games simulation with some decision algorithm like minimax and genetic algorithm.  
 Currently, the GA part is **not** in this project, I have to backport it from a private repository about Santorini.
 
 Please use it for testing and fun.  
