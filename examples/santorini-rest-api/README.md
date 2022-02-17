@@ -10,7 +10,7 @@ go run main.go
 
 then open `localhost:10842`
 
-## Netlify
+## Netlify and AWS Lambda
 
 * Configure a new site with **Functions directory** to `examples/santorini-rest-api/netlify/functions`.
 * The client can call `https://your-site-name.netlify.app/.netlify/functions/nextPlay`.

@@ -32,6 +32,8 @@ One of my favourite game. The first implementation was with GA because I wanted 
 You can use an HTML/SVG GUI with the REST API or a CLI tool to test the actual Carbon Player.  
 Spoiler: he is dumb, but I already sometimes lose…
 
+Check santorini-rest-api example for a Netlify version that you can use with AWS Lambda.
+
 ## Limitations in simulated games
 
 ### 2 players only
